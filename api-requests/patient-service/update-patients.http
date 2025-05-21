@@ -1,0 +1,10 @@
+### Update an existing patient entity
+PUT localhost:4000/patients/a5f1bff1-ec82-483c-a74e-d974a9517150
+Content-Type: application/json
+
+{
+  "name": "Agnivesh Patel",
+  "email": "agniveshpatel1910@gmail.com",
+  "address": "shreeji kunj",
+  "dataOfBirth": "2004-10-19"
+}

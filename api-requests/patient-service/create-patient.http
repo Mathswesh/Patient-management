@@ -1,0 +1,13 @@
+### Post request
+POST http://localhost:4000/patients
+Content-Type: application/json
+
+{
+  "name": "Agnivesh Patel",
+  "email": "agnivesh@gmail.com",
+  "address": "shreeji kunj",
+  "dataOfBirth": "2004-10-19",
+  "registeredDate": "2025-04-15"
+}
+
+###
