@@ -1,0 +1,48 @@
+server:
+  port: 4004
+
+spring:
+  main:
+    web-application-type: reactive
+  cloud:
+    gateway:
+      routes:
+# http://localhost:4005/auth/login
+# api-gateway -> http://auth-service:4005/login
+
+        - id: auth-service-route
+          uri: http://auth-service:4005
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
+
+        - id: patient-service-route
+          uri: http://patient-service:4000
+          predicates:
+            - Path=/api/patients/**
+          filters:
+            - StripPrefix=1
+            - JwtValidation
+
+# rest client -> http://patient-sevice:4000/api/patients
+# api gateway -> http://patient-sevice:4000/patients
+# patient service (springboot) -> patients -> patients array
+
+        - id: api-docs-patient-route
+          uri:  http://patient-service:4000
+          predicates:
+            - Path=/api-docs/patients
+          filters:
+            - RewritePath=/api-docs/patients,/v3/api/docs
+
+        - id: api-docs-auth-route
+          uri: http://auth-service:4005
+          predicates:
+            - Path=/api-docs/auth
+          filters:
+            - RewritePath=/api-docs/auth,/v3/api-docs
+
+# rest client -> http://localhost:4004/api-docs/patients
+# api gateway -> http://patient-service:4000/v3/api-docs
+# patient service (springboot) -> patients -> patients array
